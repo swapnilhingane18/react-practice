@@ -1,0 +1,29 @@
+.like-container {
+  font-size: 60px;
+  cursor: pointer;
+}
+
+.heart {
+  transition: color 0.2s ease;
+}
+
+.liked {
+  color: red;
+}
+
+/* Instagram pop animation */
+.pop {
+  animation: popHeart 0.3s ease;
+}
+
+@keyframes popHeart {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.4);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
