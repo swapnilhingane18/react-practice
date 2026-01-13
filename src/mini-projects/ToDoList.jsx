@@ -22,6 +22,16 @@ let deleteToDo = (id) => {
     prevTodos.filter((todo) => todo.id !== id)
 );
 };
+
+let upperCaseAll=()=>{
+  setTodos((prevTodos)=>
+    prevTodos.map((todo)=>({
+        ...todo,
+        task:todo.task.toUpperCase(),
+
+      }))
+  );
+};
   
   return (
     <div className="todo-container">
@@ -46,7 +56,7 @@ let deleteToDo = (id) => {
 
         ))}
       </ul>
+      <button onClick={upperCaseAll}>SETUPPERCASE</button>
     </div>
   );
 }
- 
