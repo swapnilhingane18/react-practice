@@ -1,5 +1,6 @@
 .todo-container {
-  width: 380px;
+  width: 100%;          /* allow horizontal growth */
+  max-width: 700px;     /* limit max size (you can change this) */
   padding: 28px;
   background: #ffffff;
   border-radius: 18px;
@@ -63,10 +64,10 @@
 
 /* LIST */
 .todo-list {
-  margin-top: 22px;
-  padding: 0;
-  list-style: none;
+  max-height: 420px;     /* optional */
+  overflow-y: auto;
 }
+
 
 .todo-list li {
   padding: 12px 14px;
@@ -82,4 +83,44 @@
 }
 .todo-input input {
   border: 1px solid #ccc;   /* INPUT BORDER */
+}
+
+/* FIX LIST ITEM ALIGNMENT */
+.todo-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  min-height: auto;      /* ✅ grow with content */
+}
+
+
+/* TASK TEXT */
+.todo-text {
+  flex: 1;
+  white-space: normal;       /* allow wrapping */
+  word-break: break-word;
+}
+
+/* BUTTONS ON SAME LINE */
+.todo-actions {
+  display: flex;
+  gap: 8px;
+}
+
+/* OPTIONAL: STYLE LIST BUTTONS */
+.todo-actions button {
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: none;
+  background: #111827;
+  color: white;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.todo-actions button:hover {
+  opacity: 0.9;
 }

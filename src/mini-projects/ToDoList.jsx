@@ -17,12 +17,6 @@ let updateToDoValue = (event)=>{
   setNewTodo(event.target.value);
 }
 
-let deleteToDo = (id) => {
- setTodos((prevTodos) => 
-    prevTodos.filter((todo) => todo.id !== id)
-);
-};
-
 let upperCaseAll=()=>{
   setTodos((prevTodos)=>
     prevTodos.map((todo)=>({
@@ -30,6 +24,22 @@ let upperCaseAll=()=>{
         task:todo.task.toUpperCase(),
 
       }))
+  );
+};
+
+let deleteToDo = (id) => {
+  setTodos((prevTodos) =>
+    prevTodos.filter((todo) => todo.id !== id)
+  );
+};
+
+let upperCaseOne = (id) => {
+  setTodos((prevTodos) =>
+    prevTodos.map((todo) =>
+      todo.id === id
+        ? { ...todo, task: todo.task.toUpperCase() }
+        : todo
+    )
   );
 };
   
@@ -43,19 +53,23 @@ let upperCaseAll=()=>{
         onChange={(e) => setNewTodo(e.target.value)}
       />
       <button onClick={addNewTask}>Add</button>
+      
       </div>
 
-      <ul>
-        {todos.map((todo, index) => (
+  <ul className="todo-list">
+  {todos.map((todo) => (
+    <li key={todo.id} className="todo-item">
+      <span className="todo-text">{todo.task}</span>
 
-          <li key={todo.id}>
-           <span>{todo.task}</span>
-           &nbsp;&nbsp;
-           <button onClick={() => deleteToDo(todo.id)}>Delete</button>
-            </li>
+      <div className="todo-actions">
+        <button onClick={() => upperCaseOne(todo.id)}>Uppercase</button>
+        <button onClick={() => deleteToDo(todo.id)}>Delete</button>
+      </div>
+    </li>
+  ))}
+</ul>
 
-        ))}
-      </ul>
+
       <button onClick={upperCaseAll}>SETUPPERCASE</button>
     </div>
   );
