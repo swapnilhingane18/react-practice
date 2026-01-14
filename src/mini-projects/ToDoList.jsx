@@ -1,76 +1,94 @@
 import { useState } from "react";
-import { v4 as uuidv4 } from 'uuid';
-
+import { v4 as uuidv4 } from "uuid";
 
 export default function ToDoList() {
-  const [todos, setTodos] = useState([{task:"sample-task",id:uuidv4()}]);
+  const [todos, setTodos] = useState([
+    { task: "sample-task", id: uuidv4(), completed: false }
+  ]);
   const [newTodo, setNewTodo] = useState("");
 
- let addNewTask = () => {
-  setTodos((prevTodos) => {
-    return [...prevTodos,{task: newTodo,id: uuidv4()}]
-  });
-  setNewTodo("");
-};
+  // ADD TASK
+  const addNewTask = () => {
+    if (newTodo.trim() === "") return;
 
-let updateToDoValue = (event)=>{
-  setNewTodo(event.target.value);
-}
+    setTodos((prevTodos) => [
+      ...prevTodos,
+      { task: newTodo, id: uuidv4(), completed: false }
+    ]);
 
-let upperCaseAll=()=>{
-  setTodos((prevTodos)=>
-    prevTodos.map((todo)=>({
-        ...todo,
-        task:todo.task.toUpperCase(),
+    setNewTodo("");
+  };
 
-      }))
-  );
-};
+  // DELETE TASK
+  const deleteToDo = (id) => {
+    setTodos((prevTodos) =>
+      prevTodos.filter((todo) => todo.id !== id)
+    );
+  };
 
-let deleteToDo = (id) => {
-  setTodos((prevTodos) =>
-    prevTodos.filter((todo) => todo.id !== id)
-  );
-};
+  // UPPERCASE ONE TASK
+  const upperCaseOne = (id) => {
+    setTodos((prevTodos) =>
+      prevTodos.map((todo) =>
+        todo.id === id
+          ? { ...todo, task: todo.task.toUpperCase() }
+          : todo
+      )
+    );
+  };
 
-let upperCaseOne = (id) => {
-  setTodos((prevTodos) =>
-    prevTodos.map((todo) =>
-      todo.id === id
-        ? { ...todo, task: todo.task.toUpperCase() }
-        : todo
-    )
-  );
-};
-  
+  // TOGGLE COMPLETE
+  const toggleComplete = (id) => {
+    setTodos((prevTodos) =>
+      prevTodos.map((todo) =>
+        todo.id === id
+          ? { ...todo, completed: !todo.completed }
+          : todo
+      )
+    );
+  };
+
   return (
     <div className="todo-container">
       <h2>Todo App</h2>
+
       <div className="todo-input">
         <input
-        placeholder="Add your task here"
-        value={newTodo}
-        onChange={(e) => setNewTodo(e.target.value)}
-      />
-      <button onClick={addNewTask}>Add</button>
-      
+          placeholder="Add your task here"
+          value={newTodo}
+          onChange={(e) => setNewTodo(e.target.value)}
+        />
+        <button onClick={addNewTask}>Add</button>
       </div>
 
-  <ul className="todo-list">
-  {todos.map((todo) => (
-    <li key={todo.id} className="todo-item">
-      <span className="todo-text">{todo.task}</span>
+      <ul className="todo-list">
+        {todos.map((todo) => (
+          <li
+            key={todo.id}
+            className={`todo-item ${todo.completed ? "completed" : ""}`}
+          >
+            {/* CHECKBOX */}
+            <input
+              type="checkbox"
+              checked={todo.completed}
+              onChange={() => toggleComplete(todo.id)}
+            />
 
-      <div className="todo-actions">
-        <button onClick={() => upperCaseOne(todo.id)}>Uppercase</button>
-        <button onClick={() => deleteToDo(todo.id)}>Delete</button>
-      </div>
-    </li>
-  ))}
-</ul>
+            {/* TASK TEXT */}
+            <span className="todo-text">{todo.task}</span>
 
-
-      <button onClick={upperCaseAll}>SETUPPERCASE</button>
+            {/* ACTION BUTTONS */}
+            <div className="todo-actions">
+              <button onClick={() => upperCaseOne(todo.id)}>
+                Uppercase
+              </button>
+              <button onClick={() => deleteToDo(todo.id)}>
+                Delete
+              </button>
+            </div>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
