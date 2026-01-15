@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
+import "./ToDoList.css";
 
 export default function ToDoList() {
   const [todos, setTodos] = useState([
@@ -7,29 +8,24 @@ export default function ToDoList() {
   ]);
   const [newTodo, setNewTodo] = useState("");
 
-  // ADD TASK
   const addNewTask = () => {
     if (newTodo.trim() === "") return;
 
-    setTodos((prevTodos) => [
-      ...prevTodos,
+    setTodos((prev) => [
+      ...prev,
       { task: newTodo, id: uuidv4(), completed: false }
     ]);
-
+    
     setNewTodo("");
   };
 
-  // DELETE TASK
   const deleteToDo = (id) => {
-    setTodos((prevTodos) =>
-      prevTodos.filter((todo) => todo.id !== id)
-    );
+    setTodos((prev) => prev.filter((todo) => todo.id !== id));
   };
 
-  // UPPERCASE ONE TASK
   const upperCaseOne = (id) => {
-    setTodos((prevTodos) =>
-      prevTodos.map((todo) =>
+    setTodos((prev) =>
+      prev.map((todo) =>
         todo.id === id
           ? { ...todo, task: todo.task.toUpperCase() }
           : todo
@@ -37,10 +33,9 @@ export default function ToDoList() {
     );
   };
 
-  // TOGGLE COMPLETE
   const toggleComplete = (id) => {
-    setTodos((prevTodos) =>
-      prevTodos.map((todo) =>
+    setTodos((prev) =>
+      prev.map((todo) =>
         todo.id === id
           ? { ...todo, completed: !todo.completed }
           : todo
@@ -67,17 +62,14 @@ export default function ToDoList() {
             key={todo.id}
             className={`todo-item ${todo.completed ? "completed" : ""}`}
           >
-            {/* CHECKBOX */}
             <input
               type="checkbox"
               checked={todo.completed}
               onChange={() => toggleComplete(todo.id)}
             />
 
-            {/* TASK TEXT */}
             <span className="todo-text">{todo.task}</span>
 
-            {/* ACTION BUTTONS */}
             <div className="todo-actions">
               <button onClick={() => upperCaseOne(todo.id)}>
                 Uppercase
