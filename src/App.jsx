@@ -10,13 +10,13 @@ import LudoBoard from './statehooks/LudoBoard.jsx'
 import ToDoList from './mini-projects/ToDoList.jsx'
 import "./mini-projects/ToDoList.css";
 import Lottery from './mini-projects/Lottery.jsx'
-
+import TicketNumber from './mini-projects/TicketNumber.jsx' 
 
 function App() {
 
   return (
     <div className="App">
-      <Lottery/>
+      <TicketNumber num={5}/>
     </div>
   )
 }

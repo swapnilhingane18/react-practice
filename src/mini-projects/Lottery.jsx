@@ -33,7 +33,7 @@ export default function Lottery() {
             <span>{ticket[1]}</span>
             <span>{ticket[2]}</span>
         </div>
-        
+            
         <button onClick={() => setticket(generateTicket())}>New Ticket</button>
         <h3>{iswinner ? "You Win!" : "Try Again"}</h3>
 
