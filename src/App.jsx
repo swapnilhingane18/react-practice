@@ -11,13 +11,16 @@ import ToDoList from './mini-projects/ToDoList.jsx'
 import "./mini-projects/ToDoList.css";
 import Lottery from './mini-projects/Lottery.jsx'
 import TicketNumber from './mini-projects/TicketNumber.jsx' 
+import SearchBox from './mini-projects/SearchBox.jsx'
+
+
 
 function App() {
 
   return (
-    <div className="App">
-      <TicketNumber num={5}/>
-    </div>
+    <>
+    <SearchBox/>
+    </>
   )
 }
 
