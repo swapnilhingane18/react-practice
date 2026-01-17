@@ -1,65 +1,58 @@
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-import SendIcon from '@mui/icons-material/Send';
-import './SearchBox.css';
-import { useState } from 'react';
-import React from 'react';
+import React, { useState } from "react";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import SendIcon from "@mui/icons-material/Send";
+import "./SearchBox.css";
+import InfoBox from "./InfoBox.jsx";
 
 export default function SearchBox() {
-    let [city, setCity] = useState("");
-    let [weatherInfo, setWeatherInfo] = useState(null);
+  const [city, setCity] = useState("");
+  const [weatherInfo, setWeatherInfo] = useState(null);
 
-    const API_URL = "https://api.openweathermap.org/data/2.5/weather"
-    const API_KEY = "c6fba9098b53169ea56e7dc3eabeeb83"
+  const API_URL = "https://api.openweathermap.org/data/2.5/weather";
+  const API_KEY = "c6fba9098b53169ea56e7dc3eabeeb83";
 
-    const getWeatherInfo = async () => {
-        let url = `${API_URL}?q=${city}&appid=${API_KEY}&units=metric`;
-        let res = await fetch(url);
-        let data = await res.json();
+  const getWeatherInfo = async () => {
+    let url = `${API_URL}?q=${city}&appid=${API_KEY}&units=metric`;
+    let res = await fetch(url);
+    let data = await res.json();
 
-        setWeatherInfo(data);   // 🔥 STORE DATA
-    };
-
-
-    let handleChange = (event) => {
-        setCity(event.target.value);
+    if (data.cod !== 200) {
+      alert("City not found");
+      return;
     }
 
-    let handleSubmit = async (event) => {
-        event.preventDefault();
-        await getWeatherInfo();
-        setCity("");
-    }
+    setWeatherInfo(data);
+  };
 
-    return <div>
-        <h3>SearchBox</h3>
-        <form onSubmit={handleSubmit}>
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    await getWeatherInfo();
+    setCity("");
+  };
 
-            <TextField
-                id="city"
-                label="City_Name"
-                variant="outlined"
-                required value={city}
-                onChange={handleChange} />
-            <br></br>
-            <br></br>
+  return (
+    <div>
+      <h3>SearchBox</h3>
 
-            <Button
-                type="submit"
-                variant="contained"
-                endIcon={<SendIcon />}>Send
-            </Button>
+      <form onSubmit={handleSubmit}>
+        <TextField
+          label="City Name"
+          variant="outlined"
+          required
+          value={city}
+          onChange={(e) => setCity(e.target.value)}
+        />
 
-        </form>
-        {weatherInfo && (
-            <div>
-                <h3>{weatherInfo.name}</h3>
-                <p>Temperature: {weatherInfo.main.temp} °C</p>
-                <p>Feels Like: {weatherInfo.main.feels_like} °C</p>
-                <p>Weather: {weatherInfo.weather[0].main}</p>
-                <p>Wind Speed: {weatherInfo.wind.speed} m/s</p>
-            </div>
-        )}
+        <br />
+        <br />
 
+        <Button type="submit" variant="contained" endIcon={<SendIcon />}>
+          Send
+        </Button>
+      </form>
+
+      <InfoBox weatherInfo={weatherInfo} />
     </div>
+  );
 }
